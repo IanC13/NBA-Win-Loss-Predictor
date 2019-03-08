@@ -42,7 +42,7 @@ for i in range(3,10):
     #axis = 1 is a way to tell pandas that it is a column
     #by default drop() funtionz only displays the changed dataframe and not save it. intplace = True replaces the dataframe
 
-    stats = stats[~stats['Player'].isin(['Player'])]
+    stats = stats[stats['Player'].isin(['Player'])]
     # This get rids of all the weird rows which are headings in the middle of the table
 
     stats.rename(columns={'FG%':'FGp', '3P%':'3Pp', '2P%':'2Pp', 'eFG%':'eFGp', 'FT%':'FTp'} , inplace = True )
