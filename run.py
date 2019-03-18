@@ -36,7 +36,8 @@ east2014 = {'TOR': 48, 'BOS': 25, 'PHI': 19, 'CLE': 33, 'IND': 56, 'MIA': 54, 'M
 print('')
 co = input('The team\'s conference ')
 t = input('Input the team initials ')
-year = int(input('Input the last two numbers of the year. e.g. input 18 for 2018 '))
+year = int(input('Input the last two numbers of the year you want to find the record for. e.g. input 18 for 2018 '))
+year = year - 1
 
 if co == 'west':
     c = west

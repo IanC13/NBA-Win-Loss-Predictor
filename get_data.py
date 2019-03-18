@@ -7,7 +7,7 @@ connection = engine.connect()
 
 def roster(year, team):
     #This function gets the roster from season 'year'
-    query = 'SELECT Player FROM 2k'+ str(year) + ' WHERE Tm = '+ '\''+team + '\''
+    query = 'SELECT Player FROM 2k'+ str(year) + ' WHERE Tm = '+ '\'' + team + '\''
     resultProxy = connection.execute(query)
     #This executes the query statement, 'query', from dB in connection and stores it in resultProxy
     #resultProxy is the object returned by .execute() method
@@ -46,7 +46,7 @@ def stats(year, team):
 
         if resultSet:
             for row in resultSet:
-                playerStats.append( {'eFG%': row [16], 'FGA': row[8], 'FTA': row[18], 'TOV' : row[26], 'FT': row[17], 'ORB': row[20],'Games' : row[4]}) # 'MP':row[6]})
+                playerStats.append( {'eFG%': row [16], 'FGA': row[8], 'FTA': row[18], 'TOV' : row[26], 'FT': row[17], 'ORB': row[20]}) 
 
                 #Index:
                 #0 = Player, 1 = Pos, 2 = Age, 3 = Tm, 4 = Games, 5 = Games started, 6 = MP, 7 = FG

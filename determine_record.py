@@ -28,6 +28,7 @@ def westTeams():
     west.append(x)
     west.append(y)
     west.append(z)
+    file.close()
     return west
     #Returns a 2d list, each list in this list are the 5 teams that are in the same division
 
@@ -57,6 +58,7 @@ def eastTeams():
     east.append(x)
     east.append(y)
     east.append(z)
+    file.close()
     return east
 
 def simulateMainAtHome(main,t1, t2, year, coefficients):
@@ -80,7 +82,6 @@ def simulateMainAtHome(main,t1, t2, year, coefficients):
         randomHome = random.randint(0,25) / 100
         # Home team has advantage
         randomAway = random.randint(0,15) / 100
-        #
 
         homeScore = homeInit + randomHome
         awayScore = awayInit + randomAway
@@ -91,11 +92,11 @@ def simulateMainAtHome(main,t1, t2, year, coefficients):
         else:
             awayWin = awayWin + 1
 
-    if homeWin >= awayWin:
-        #print(home, 'won', homeWin / 10 ,'% of the time')
+    if homeWin > awayWin:
+        print(home, 'won', homeWin / 10 ,'% of the time')
         return 'won'
     else:
-        #print(away, 'won' , awayWin / 10 ,'% of the time')
+        print(away, 'won' , awayWin / 10 ,'% of the time')
         return 'lost'
 
 # One function for home and one for away because our coefficients will only modify the main team we are testing
@@ -123,7 +124,6 @@ def simulateMainAtAway(t1, t2, main, year, coefficients):
         randomHome = random.randint(0,25) / 100
         # Home team has advantage
         randomAway = random.randint(0,15) / 100
-        #
 
         homeScore = homeInit + randomHome
         awayScore = awayInit + randomAway
@@ -134,7 +134,7 @@ def simulateMainAtAway(t1, t2, main, year, coefficients):
         else:
             awayWin = awayWin + 1
 
-    if homeWin >= awayWin:
+    if homeWin > awayWin:
         print(home, 'won', homeWin / 10 ,'% of the time')
         return 'won'
     else:

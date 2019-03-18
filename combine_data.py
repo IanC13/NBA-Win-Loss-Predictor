@@ -9,7 +9,6 @@ def teamScore(year, team, coefficients):
     ORB = 0
     FT = 0
     count = 0
-    y = ['eFG%','TOV','FGA','FTA','ORB','FT']
     x = get(year, team)
 
     for i in x:
@@ -27,8 +26,6 @@ def teamScore(year, team, coefficients):
             FT = FT + x[count]['FT']
         #Gets the sum of all players for all these stats
         count = count + 1
-
-
 
     #Four factors
     eFGp = eFGp / count
