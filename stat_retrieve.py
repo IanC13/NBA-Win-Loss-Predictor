@@ -45,11 +45,8 @@ for i in range(y2,y):
     #by default drop() funtionz only displays the changed dataframe and not save it. intplace = True replaces the dataframe
 
     stats = stats[stats['Player'] != 'Player']
-    #stats = stats[~stats['Player'].isin(['Player'])]
     # This get rids of all the rows which are headings in the middle of the table
-    # stats = stats[~stats['column_name'].isin[values]]
     #   From 'column_name' select all the rows that value != values (player)
-    #   .isin returns a boolean, '~' is used to negate the boolean series
 
     stats.rename(columns={'FG%':'FGp', '3P%':'3Pp', '2P%':'2Pp', 'eFG%':'eFGp', 'FT%':'FTp'} , inplace = True )
     #Headings violate mysql rules with special characters. Changes headings to fit those rules.

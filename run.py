@@ -1,5 +1,7 @@
 from determine_record import *
 from genetic_algorithm import runGA
+import time
+start_time = time.time()
 
 west = westTeams()
 east = eastTeams()
@@ -91,7 +93,9 @@ if co == 'west':
 elif co == 'east':
     w = 0
     for i in range(5):
-        w = w + simulateEast(west[nums[0]][nums[1]], nums[0], nums[1], year +1, sol )
+        w = w + simulateEast(east[nums[0]][nums[1]], nums[0], nums[1], year +1, sol )
     w = w // 5
 
-print(t, 'is predicted to win', w, 'games next season. Their record:', w , '-' , 82 - w)
+print(t, 'is predicted to win', w, 'games in 20' + str(year + 1), 'Their record:', w , '-' , 82 - w)
+
+print ("My program took", time.time() - start_time, "to run")

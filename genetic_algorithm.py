@@ -12,7 +12,6 @@ def individual(N,min,max):
     #Creates an individual in a population
     #E.g. [2,4,6,2,7]
 
-
 def population(count,N,min,max):
     x = []
     for i in range(count):
@@ -46,7 +45,6 @@ def evolution(prevPop, target, conf, cNum, tNum, year):
     #prevPop is a 2D array
     #Taking a portion of the previous gen population
     #determine the number of individuals taken from previous population
-    count = 0
     newPop = []
     targetLength = len(prevPop)
     noHP = (1/3)
@@ -56,9 +54,9 @@ def evolution(prevPop, target, conf, cNum, tNum, year):
         min = 100
         for i in range(len(prevPop)):
             x = fitnessFunction(conf, prevPop[i], target, cNum, tNum, year)
-            if x <= 1:
+            if x <= 0:
                 return prevPop[i]
-                # If we find the solution within the predefined population we return it straitgh away
+                # If we find the solution within the predefined population we return it straight away
                 # there is no need for evolution
             else:
                 if x <= min:
@@ -83,8 +81,8 @@ def evolution(prevPop, target, conf, cNum, tNum, year):
 
 
     #newPop are parents of next generation
-    #40% is selected to be parents
-    #60% is breeded
+    #2/3 is selected to be parents
+    #1/3 is breeded
 
     #Breeding
     #Multipoint crossover
@@ -122,7 +120,7 @@ def evolution(prevPop, target, conf, cNum, tNum, year):
 
     #Mutations
     chanceToMutate = random.randint(1,20)
-    # % chance
+    # 5% chance
     if chanceToMutate == 1:
         individualToMutate = random.randint(0,len(children)-1)
         geneToMutate = random.randint(0, len(children[individualToMutate])-1)
@@ -135,28 +133,31 @@ def evolution(prevPop, target, conf, cNum, tNum, year):
 
     newPop.extend(children)
 
-    count = count + 1
-    print(count, 'evolution(s)')
     print(newPop)
     return newPop
 
 
 def runGA(target, conference, cNum, tNum, year ):
-    size = 6
+    size = 12
     # not 4
     test = population(size ,4,75,125)
     repeat = True
+    count = 0
 
     while repeat == True:
+        count = count + 1
         test = evolution(test, target, conference, cNum, tNum, year)
         solution = test
+        print(count, 'evolution(s)')
         if len(solution) != size:
             return solution
             repeat = False
             break
-            # If the returning value is a solution, the len of the 1 d list will be Four
-            # this is not 'size' so we know that what was returned was the solution
-            #
-            # if returning value is the new population for next evolution, the length
-            # will be 6 and the same as size so we know this is the pop for next evolution
-            # so these functions are not executed
+            ''' If the returning value is a solution, the len of the 1 d list will be Four
+             this is not 'size' so we know that what was returned was the solution
+
+             if returning value is the new population for next evolution, the length
+             will be 6 and the same as size so we know this is the pop for next evolution
+             so these functions are not executed '''
+
+#print( runGA(67, 'west', 1, 0, 18) )

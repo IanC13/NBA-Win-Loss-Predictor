@@ -61,7 +61,8 @@ def eastTeams():
     file.close()
     return east
 
-def simulateMainAtHome(main,t1, t2, year, coefficients):
+
+def simulateMainAtHome(main,t1, t2, year):
     #This function simulates the chance that team 1 wins against team 2 or vice versa in ONE
     #Head to head game. It accounts for some randomness and home court advantage.
     #This one game is simulated many times and the team that wins majority of the time will
@@ -103,7 +104,7 @@ def simulateMainAtHome(main,t1, t2, year, coefficients):
 # The main team will be sometimes home and sometimes away so we need the coefficients parameter to be passed
 # to the homeInit or the awayInit when calling teamScore()
 
-def simulateMainAtAway(t1, t2, main, year, coefficients):
+def simulateMainAtAway(t1, t2, main, year):
     #This function simulates the chance that team 1 wins against team 2 or vice versa in ONE
     #Head to head game. It accounts for some randomness and home court advantage.
     #This one game is simulated many times and the team that wins majority of the time will
@@ -118,6 +119,7 @@ def simulateMainAtAway(t1, t2, main, year, coefficients):
 
     homeWin = 0
     awayWin = 0
+
 
     for i in range(0,1000):
 
@@ -145,7 +147,7 @@ def simulateMainAtAway(t1, t2, main, year, coefficients):
 def simulateWest(team, division, index, year, coefficients):
     #Team is an element in 2 d list of teams e.g. west[0][0]
     # division and index is the position of the team in the list of teams
-    # Passed into the function to use as conditions so the team doesn't playing themselves
+    # Passed into the function to use as conditions so the team doesn't play themselves
     mainScore = teamScore(year, team, coefficients)
 
     west = westTeams()
@@ -166,7 +168,7 @@ def simulateWest(team, division, index, year, coefficients):
     for i in range(2):
         for j in range(0,5):
             if j != index:
-                x = simulateMainAtHome(mainScore, team, west[division][j],year, coefficients)
+                x = simulateMainAtHome(mainScore, team, west[division][j],year)
                 if x == 'won':
                     wins += 1
     # Plays every team in the same divion twice at HOME
@@ -174,7 +176,7 @@ def simulateWest(team, division, index, year, coefficients):
     for i in range(2):
         for j in range(0,5):
             if j != index:
-                x = simulateMainAtAway(west[division][j],team, mainScore, year, coefficients)
+                x = simulateMainAtAway(west[division][j],team, mainScore, year)
                 if x == 'lost':
                     wins += 1
     # Plays every team in the same divion twice at AWAY
@@ -183,14 +185,14 @@ def simulateWest(team, division, index, year, coefficients):
 
     for i in range(0,3):
         for j in range(0,5):
-            x = simulateMainAtHome(mainScore, team, east[i][j],year, coefficients)
+            x = simulateMainAtHome(mainScore, team, east[i][j],year)
             if x == 'won':
                 wins += 1
     # Plays every team in the oppsing conference once at HOME
 
     for i in range(0,3):
         for j in range(0,5):
-            x = simulateMainAtAway(east[i][j],team, mainScore, year, coefficients)
+            x = simulateMainAtAway(east[i][j],team, mainScore, year)
             if x == 'lost':
                 wins += 1
     # Plays every team in the oppsing conference once at AWAY
@@ -209,13 +211,13 @@ def simulateWest(team, division, index, year, coefficients):
                 y = random.choice(rd1)
                 # Randomly choose a team in this conference
                 for i in range(2):
-                    x = simulateMainAtHome(mainScore, team, west[d1][y],year, coefficients)
+                    x = simulateMainAtHome(mainScore, team, west[d1][y],year)
                     if x == 'won':
                         wins += 1
                         # Play 2 games at HOME
 
                 for i in range(2):
-                    x = simulateMainAtAway(west[d1][y],team, mainScore, year, coefficients)
+                    x = simulateMainAtAway(west[d1][y],team, mainScore, year)
                     if x == 'lost':
                         wins +=1
                         # Play 2 games AWAY
@@ -226,12 +228,12 @@ def simulateWest(team, division, index, year, coefficients):
                 # Chosen division 2
                 y = random.choice(rd2)
                 for i in range(2):
-                    x = simulateMainAtHome(mainScore, team, west[d2][y],year, coefficients)
+                    x = simulateMainAtHome(mainScore, team, west[d2][y],year)
                     if x == 'won':
                         wins += 1
 
                 for i in range(2):
-                    x = simulateMainAtAway(west[d2][y], team, mainScore, year, coefficients)
+                    x = simulateMainAtAway(west[d2][y], team, mainScore, year)
                     if x == 'lost':
                         wins +=1
                 rd2.remove(y)
@@ -242,12 +244,12 @@ def simulateWest(team, division, index, year, coefficients):
             y = random.choice(rd2)
             # Choose from the other list
             for i in range(2):
-                x = simulateMainAtHome(mainScore, team, west[d2][y],year, coefficients)
+                x = simulateMainAtHome(mainScore, team, west[d2][y],year)
                 if x == 'won':
                     wins += 1  # 2 at HOME
 
             for i in range(2):
-                x = simulateMainAtAway(west[d2][y], team, mainScore, year, coefficients)
+                x = simulateMainAtAway(west[d2][y], team, mainScore, year)
                 if x == 'lost':
                     wins +=1 # 2 AWAY
             rd2.remove(y)
@@ -256,13 +258,13 @@ def simulateWest(team, division, index, year, coefficients):
         elif len(rd2) == 0:
             y = random.choice(rd1)
             for i in range(2):
-                x = simulateMainAtHome(mainScore, team, west[d1][y],year, coefficients)
+                x = simulateMainAtHome(mainScore, team, west[d1][y],year)
                 if x == 'won':
                     wins += 1
 
 
             for i in range(2):
-                x = simulateMainAtAway(west[d1][y], team, mainScore, year, coefficients)
+                x = simulateMainAtAway(west[d1][y], team, mainScore, year)
                 if x == 'lost':
                     wins +=1
             rd1.remove(y)
@@ -286,11 +288,11 @@ def simulateWest(team, division, index, year, coefficients):
                 f = random.randint(0, len(rd2) - 1)
 
         for i in range(2):
-            x = simulateMainAtHome(mainScore, team, west[g][f], year, coefficients)
+            x = simulateMainAtHome(mainScore, team, west[g][f], year)
             if x == 'won':
                 wins += 1  # 2 at HOME
 
-        x = simulateMainAtAway(west[g][f], team, mainScore,year, coefficients)
+        x = simulateMainAtAway(west[g][f], team, mainScore,year)
         if x == 'lost':
             wins += 1  # 1 AWAY
 
@@ -304,12 +306,12 @@ def simulateWest(team, division, index, year, coefficients):
     while len(rd1) != 0:
         # Take all teams from this conference. At this point, there is either 2 left, or 1 or none
         for i in range(len(rd1)):
-            x = simulateMainAtHome(mainScore, team, west[d1][i],year, coefficients)
+            x = simulateMainAtHome(mainScore, team, west[d1][i],year)
             if x == 'won':
                 wins += 1  # 1 at HOME
 
             for i in range(2):
-                x = simulateMainAtAway(west[d1][i], team, mainScore,year, coefficients)
+                x = simulateMainAtAway(west[d1][i], team, mainScore,year)
                 if x == 'lost':
                     wins +=1  # 1 AWAY
         rd1 = []  # Remove all from list
@@ -317,12 +319,12 @@ def simulateWest(team, division, index, year, coefficients):
     while len(rd2) != 0:
         # Same as above
         for i in range(len(rd2)):
-            x = simulateMainAtHome(mainScore, team, west[d2][i], year, coefficients)
+            x = simulateMainAtHome(mainScore, team, west[d2][i], year)
             if x == 'won':
                 wins += 1
 
             for i in range(2):
-                x = simulateMainAtAway(west[d2][i], team, mainScore, year, coefficients)
+                x = simulateMainAtAway(west[d2][i], team, mainScore, year)
                 if x == 'lost':
                     wins +=1
         rd2 = []
@@ -358,27 +360,27 @@ def simulateEast(team, division, index, year, coefficients):
     for i in range(2):
         for j in range(0,5):
             if j != index:
-                x = simulateMainAtHome(mainScore, team, east[division][j],year, coefficients)
+                x = simulateMainAtHome(mainScore, team, east[division][j],year)
                 if x == 'won':
                     wins += 1
 
     for i in range(2):
         for j in range(0,5):
             if j != index:
-                x = simulateMainAtAway(east[division][j],team, mainScore, year, coefficients)
+                x = simulateMainAtAway(east[division][j],team, mainScore, year)
                 if x == 'lost':
                     wins += 1
 
 
     for i in range(0,3):
         for j in range(0,5):
-            x = simulateMainAtHome(mainScore, team, west[i][j],year, coefficients)
+            x = simulateMainAtHome(mainScore, team, west[i][j],year)
             if x == 'won':
                 wins += 1
 
     for i in range(0,3):
         for j in range(0,5):
-            x = simulateMainAtAway(west[i][j],team, mainScore, year, coefficients)
+            x = simulateMainAtAway(west[i][j],team, mainScore, year)
             if x == 'lost':
                 wins += 1
 
@@ -394,12 +396,12 @@ def simulateEast(team, division, index, year, coefficients):
             if n == d1:
                 y = random.choice(rd1)
                 for i in range(2):
-                    x = simulateMainAtHome(mainScore, team, east[d1][y],year, coefficients)
+                    x = simulateMainAtHome(mainScore, team, east[d1][y],year)
                     if x == 'won':
                         wins += 1
 
                 for i in range(2):
-                    x = simulateMainAtAway(east[d1][y],team, mainScore, year, coefficients)
+                    x = simulateMainAtAway(east[d1][y],team, mainScore, year)
                     if x == 'lost':
                         wins +=1
                 rd1.remove(y)
@@ -407,12 +409,12 @@ def simulateEast(team, division, index, year, coefficients):
             elif n == d2:
                 y = random.choice(rd2)
                 for i in range(2):
-                    x = simulateMainAtHome(mainScore, team, east[d2][y],year, coefficients)
+                    x = simulateMainAtHome(mainScore, team, east[d2][y],year)
                     if x == 'won':
                         wins += 1
 
                 for i in range(2):
-                    x = simulateMainAtAway(east[d2][y], team, mainScore, year, coefficients)
+                    x = simulateMainAtAway(east[d2][y], team, mainScore, year)
                     if x == 'lost':
                         wins +=1
                 rd2.remove(y)
@@ -420,12 +422,12 @@ def simulateEast(team, division, index, year, coefficients):
         elif len(rd1) == 0:
             y = random.choice(rd2)
             for i in range(2):
-                x = simulateMainAtHome(mainScore, team, east[d2][y],year, coefficients)
+                x = simulateMainAtHome(mainScore, team, east[d2][y],year)
                 if x == 'won':
                     wins += 1
 
             for i in range(2):
-                x = simulateMainAtAway(east[d2][y], team, mainScore, year, coefficients)
+                x = simulateMainAtAway(east[d2][y], team, mainScore, year)
                 if x == 'lost':
                     wins +=1
             rd2.remove(y)
@@ -433,12 +435,12 @@ def simulateEast(team, division, index, year, coefficients):
         elif len(rd2) == 0:
             y = random.choice(rd1)
             for i in range(2):
-                x = simulateMainAtHome(mainScore, team, east[d1][y],year, coefficients)
+                x = simulateMainAtHome(mainScore, team, east[d1][y],year)
                 if x == 'won':
                     wins += 1
 
             for i in range(2):
-                x = simulateMainAtAway(east[d1][y], team, mainScore, year, coefficients)
+                x = simulateMainAtAway(east[d1][y], team, mainScore, year)
                 if x == 'lost':
                     wins +=1
             rd1.remove(y)
@@ -460,11 +462,11 @@ def simulateEast(team, division, index, year, coefficients):
                 f = random.randint(0, len(rd2) - 1)
 
         for i in range(2):
-            x = simulateMainAtHome(mainScore, team, east[g][f], year, coefficients)
+            x = simulateMainAtHome(mainScore, team, east[g][f], year)
             if x == 'won':
                 wins += 1
 
-        x = simulateMainAtAway(east[g][f], team, mainScore,year, coefficients)
+        x = simulateMainAtAway(east[g][f], team, mainScore,year)
         if x == 'lost':
             wins += 1
 
@@ -476,24 +478,24 @@ def simulateEast(team, division, index, year, coefficients):
 
     while len(rd1) != 0:
         for i in range(len(rd1)):
-            x = simulateMainAtHome(mainScore, team, east[d1][i],year, coefficients)
+            x = simulateMainAtHome(mainScore, team, east[d1][i],year)
             if x == 'won':
                 wins += 1
 
             for i in range(2):
-                x = simulateMainAtAway(east[d1][i], team, mainScore,year, coefficients)
+                x = simulateMainAtAway(east[d1][i], team, mainScore,year)
                 if x == 'lost':
                     wins +=1
         rd1 = []
 
     while len(rd2) != 0:
         for i in range(len(rd2)):
-            x = simulateMainAtHome(mainScore, team, east[d2][i], year, coefficients)
+            x = simulateMainAtHome(mainScore, team, east[d2][i], year)
             if x == 'won':
                 wins += 1
 
             for i in range(2):
-                x = simulateMainAtAway(east[d2][i], team, mainScore, year, coefficients)
+                x = simulateMainAtAway(east[d2][i], team, mainScore, year)
                 if x == 'lost':
                     wins +=1
         rd2 = []
@@ -501,6 +503,10 @@ def simulateEast(team, division, index, year, coefficients):
     print(wins, 'wins')
     return(wins)
 
-
 west = westTeams()
 east = eastTeams()
+
+
+
+
+#print( simulateWest(west[1][0], 1, 0, 18, [0.98,1.2,1.21,1.2] ) )
