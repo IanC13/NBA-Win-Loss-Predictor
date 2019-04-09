@@ -2,37 +2,67 @@ from combine_data import *
 import random
 
 
-def westTeams():
-    file = open('western.txt','r')
-    count = 1
-    x=[]
-    y=[]
-    z=[]
-    west = []
-    for line in file:
-        line = line.rstrip()
-        if count == 1 or count == 2 or count == 3 or count == 4 or count == 5:
-            x.append(line)
-            count += 1
-            # These teams are in one division
+def teams(conference):
+    if conference == 'west':
+        file = open('western.txt','r')
+        count = 1
+        x=[]
+        y=[]
+        z=[]
+        west = []
+        for line in file:
+            line = line.rstrip()
+            if count == 1 or count == 2 or count == 3 or count == 4 or count == 5:
+                x.append(line)
+                count += 1
+                # These teams are in one division
 
-        elif count == 6 or count == 7 or count == 8 or count == 9 or count == 10:
-            y.append(line)
-            count += 1
-            # These teams are in another division
-        else:
-            z.append(line)
-            count += 1
-            # These teams are in the final division for this conference
+            elif count == 6 or count == 7 or count == 8 or count == 9 or count == 10:
+                y.append(line)
+                count += 1
+                # These teams are in another division
+            else:
+                z.append(line)
+                count += 1
+                # These teams are in the final division for this conference
 
-    west.append(x)
-    west.append(y)
-    west.append(z)
-    file.close()
-    return west
+        west.append(x)
+        west.append(y)
+        west.append(z)
+        file.close()
+        return west
     #Returns a 2d list, each list in this list are the 5 teams that are in the same division
+    elif conference == 'east':
+        file = open('eastern.txt','r')
+        count = 1
+        x=[]
+        y=[]
+        z=[]
+        east = []
+        for line in file:
+            line = line.rstrip()
+            if count == 1 or count == 2 or count == 3 or count == 4 or count == 5:
+                x.append(line)
+                count += 1
+                # These teams are in one division
 
-def eastTeams():
+            elif count == 6 or count == 7 or count == 8 or count == 9 or count == 10:
+                y.append(line)
+                count += 1
+                # These teams are in another division
+            else:
+                z.append(line)
+                count += 1
+                # These teams are in the final division for this conference
+
+        east.append(x)
+        east.append(y)
+        east.append(z)
+        file.close()
+        return east
+
+
+#def eastTeams():
     file = open('eastern.txt','r')
     count = 1
     x=[]
@@ -150,8 +180,8 @@ def simulateWest(team, division, index, year, coefficients):
     # Passed into the function to use as conditions so the team doesn't play themselves
     mainScore = teamScore(year, team, coefficients)
 
-    west = westTeams()
-    east = eastTeams()
+    west = teams('west')
+    east = teams('east')
     wins = 0
 
     if division == 0:
@@ -343,8 +373,8 @@ def simulateEast(team, division, index, year, coefficients):
 
     mainScore = teamScore(year, team, coefficients)
 
-    west = westTeams()
-    east = eastTeams()
+    west = teams('west')
+    east = teams('east')
     wins = 0
 
     if division == 0:
@@ -502,11 +532,3 @@ def simulateEast(team, division, index, year, coefficients):
 
     print(wins, 'wins')
     return(wins)
-
-west = westTeams()
-east = eastTeams()
-
-
-
-
-#print( simulateWest(west[1][0], 1, 0, 18, [0.98,1.2,1.21,1.2] ) )

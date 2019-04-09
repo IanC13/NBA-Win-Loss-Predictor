@@ -1,6 +1,9 @@
 import random
 from determine_record import *
 
+west = teams('west')
+east = teams('east')
+
 def individual(N,min,max):
     x = []
     for i in range(N):
@@ -38,7 +41,6 @@ def fitnessFunction(conference, numbers, target,  cNum, tNum, year):
     #Takes in a LIST and a target
     #Generates a score based on the difference between the sum of the
     #list and the target
-    #THE SMALLER THE BETTER
 
 
 def evolution(prevPop, target, conf, cNum, tNum, year):
@@ -159,5 +161,3 @@ def runGA(target, conference, cNum, tNum, year ):
              if returning value is the new population for next evolution, the length
              will be 6 and the same as size so we know this is the pop for next evolution
              so these functions are not executed '''
-
-#print( runGA(67, 'west', 1, 0, 18) )

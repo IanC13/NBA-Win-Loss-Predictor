@@ -3,8 +3,8 @@ from genetic_algorithm import runGA
 import time
 start_time = time.time()
 
-west = westTeams()
-east = eastTeams()
+west = teams('west')
+east = teams('east')
 
 def teamIndex(conf, team):
     # gets the index of the team in the list. Function for determining record takes position as parameter
@@ -16,7 +16,38 @@ def teamIndex(conf, team):
             break
         except ValueError:
             pass
-        # exception handling
+
+def allSs(record, co, num1, num2, year):
+    x = []
+    sol = []
+    sol2 = []
+    one = 0
+    two = 0
+    three = 0
+    four = 0
+
+    sol = runGA(record,co,num1, num2, year)
+    x.append(sol)
+
+    for i in range(1,3):
+        year = year - 1
+        sol = runGA(record,co,num1, num2, year)
+        x.append(sol)
+
+    for i in range(0,len(x)):
+        one += x[i][0]
+        two += x[i][1]
+        three += x[i][2]
+        four += x[i][3]
+
+    sol2.append( round(one / len(x), 2) )
+    sol2.append( round(two / len(x), 2) )
+    sol2.append( round(three / len(x), 2) )
+    sol2.append( round(four / len(x), 2) )
+    print(sol2)
+
+    return sol2
+
 
 west2018 = {'HOU': 65, 'GSW': 58, 'POR': 49, 'OKC': 48, 'UTA': 48, 'NOP': 48, 'SAS': 47, 'MIN' : 47, 'DEN': 46, 'LAC': 42, 'LAL': 35, 'SAC': 27, 'DAL': 24, 'MEM': 22, 'PHO': 21 }
 east2018 = {'TOR': 59, 'BOS': 55, 'PHI': 52, 'CLE': 50, 'IND': 48, 'MIA': 44, 'MIL': 44, 'WAS' : 43, 'DET': 39, 'CHO': 36, 'NYK': 29, 'BRK': 28, 'CHI': 27, 'ORL': 25, 'ATL': 24 }
@@ -39,6 +70,7 @@ print('')
 co = input('The team\'s conference ')
 t = input('Input the team initials ')
 year = int(input('Input the last two numbers of the year you want to find the record for. e.g. input 18 for 2018 '))
+
 year = year - 1
 
 if co == 'west':
@@ -79,10 +111,13 @@ elif co == 'east' and year == 14:
     record = east2014[t]
 
 
+#sol = allSs(record, co, nums[0], nums[1], year)
 sol = runGA(record, co, nums[0], nums[1], year)
+
 print('')
 print(sol)
 print('These are the solution coefficients. Using this to predict next season\'s record.')
+
 
 if co == 'west':
     w = 0

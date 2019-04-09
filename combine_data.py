@@ -36,5 +36,3 @@ def teamScore(year, team, coefficients):
     score =  co[0] * eFGp + co[1] * ORB +  co[2] * FT -  co[3] * TOVp
     #print(score)
     return score
-
-#print(teamScore(18,'ORL', [1,1,1,1]))

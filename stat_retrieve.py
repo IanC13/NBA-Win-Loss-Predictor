@@ -16,8 +16,7 @@ def savetosql(df, num):
 
 
 def editSQL(num):
-    #Some players' name have apostrophe in them. This cause problems later on
-    #This function removes all the apostrophes in every name in every table
+    # Removes all the apostrophes in every name in every table
     engine = sqlconnection()
     connection = engine.connect()
     query = "UPDATE 2k" + str(num) + " SET Player = REPLACE (Player,  '\\''  , '')"
@@ -27,12 +26,12 @@ def editSQL(num):
         query = "UPDATE 2k" + str(num) + " SET Tm = REPLACE (Tm, 'CHA', 'CHO')"
         resultProxy = connection.execute(query)
         #There was a team name change
-        #This just changes it to match the new name
+        # Changes it to match the new name
 
 y = int(input('Enter the last two digits of the year '))
 y2 = y - 5
 
-for i in range(y2,y):
+for i in range(y2,y+1):
     yearNum = str(i)
     stats, = pd.read_html ('https://www.basketball-reference.com/leagues/NBA_20'+yearNum+'_totals.html', header = None)
     #The ',' is used to unpack the tuple of values
