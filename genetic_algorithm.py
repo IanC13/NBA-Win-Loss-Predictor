@@ -10,10 +10,8 @@ def individual(N,min,max):
         x.append( random.randint(min,max) / 100 )
     return x
 
-    #randomly generates a number between min, max and appends them into
-    #a list. does it N times
-    #Creates an individual in a population
-    #E.g. [2,4,6,2,7]
+    '''randomly generates a number between min, max and appends them into a list. does it N times '''
+    # Creates an individual in a population
 
 def population(count,N,min,max):
     x = []
@@ -21,13 +19,10 @@ def population(count,N,min,max):
         x.append(individual(N,min,max))
     return x
 
-    #Uses the individual function and creates a 2D array with count
-    #number of elements and each element as an individual
-    #E.g. [[3,4,6,5,3],[2,8,2,5,1],[8,9,3,6,1]]
+    # Creates the population using the individual function
 
 def fitnessFunction(conference, numbers, target,  cNum, tNum, year):
-    #numbers is the list of coefficients
-    # Target is the record
+    # numbers is the list of coefficients
     print(numbers)
     if conference == 'east':
         observed = simulateEast(east[cNum][tNum], cNum, tNum, year, numbers)
@@ -38,15 +33,11 @@ def fitnessFunction(conference, numbers, target,  cNum, tNum, year):
     print(score, 'fitness score')
     return score
 
-    #Takes in a LIST and a target
-    #Generates a score based on the difference between the sum of the
-    #list and the target
+    # Takes in a LIST and a target
+    # Generates a score based on the difference between the sum of the list and the target
 
 
 def evolution(prevPop, target, conf, cNum, tNum, year):
-    #prevPop is a 2D array
-    #Taking a portion of the previous gen population
-    #determine the number of individuals taken from previous population
     newPop = []
     targetLength = len(prevPop)
     noHP = (1/3)
@@ -58,8 +49,8 @@ def evolution(prevPop, target, conf, cNum, tNum, year):
             x = fitnessFunction(conf, prevPop[i], target, cNum, tNum, year)
             if x <= 0:
                 return prevPop[i]
-                # If we find the solution within the predefined population we return it straight away
-                # there is no need for evolution
+                ''' If we find the solution within the predefined population we return it straight away
+                 there is no need for evolution '''
             else:
                 if x <= min:
                     k = i
@@ -67,27 +58,25 @@ def evolution(prevPop, target, conf, cNum, tNum, year):
 
         newPop.append(prevPop[k])
         prevPop.pop(k)
-    #loop through everything
-    #if the individual is in our desired range of the target, we return it straight away
-    #otherwise , take the SMALLEST fitnessfunction score individuals (which would be 1D list)
-    #(smaller fitnessFunction scores are BETTER performers)
-    #(one of the arrays in the 2D array)
-    #put in new pop
-    #pop it off prevPop
+    ''' loop through everything
+    if the individual is in our desired range of the target, we return it straight away
+    otherwise , take the SMALLEST fitnessfunction score individuals (which would be 1D list)
+    (smaller fitnessFunction scores are BETTER performers)
+    (one of the arrays in the 2D array)
+    put in new pop
+    pop it off prevPop '''
 
-    #Randomly select lesser performers
+    # Randomly select lesser performers
     for i in range(int(targetLength * noLP)):
         ran = random.randint(0, len(prevPop)-1)
         newPop.append(prevPop[ran])
         prevPop.pop(ran)
 
+    # newPop are parents of next generation
+    # 2/3 is selected to be parents
+    # 1/3 is breeded
 
-    #newPop are parents of next generation
-    #2/3 is selected to be parents
-    #1/3 is breeded
-
-    #Breeding
-    #Multipoint crossover
+    # Breeding
     parentsLength = len(newPop)
 
     children = []
@@ -95,41 +84,40 @@ def evolution(prevPop, target, conf, cNum, tNum, year):
     child2 =[]
     childrenTargetLength = targetLength - parentsLength
 
-
     while len(children) != childrenTargetLength:
         fatherNo = random.randint(0, parentsLength - 1)
         motherNo = random.randint(0, parentsLength - 1)
-        #Randomly chooses mother and father from the group of parents
-        #With some high performers and some lower performers
+        ''' Randomly chooses mother and father from the group of parents
+         With some high performers and some lower performers '''
 
         if fatherNo != motherNo:
-            #Ensures father and mother are not the same
+            # Ensures father and mother are not the same
             father = newPop[fatherNo]
             mother = newPop[motherNo]
 
             firstPoint = random.randint(0, len(father)-1)
             secondPoint = random.randint(0, len(father) - 1)
-            #Multipoint crossover: Chooses two points in an individual as crossover points
+            # Multipoint crossover: Chooses two points in an individual as crossover points
 
             if firstPoint != secondPoint and secondPoint > firstPoint:
-                #First point != second point (otherwise no crossover)
-                #Second point > first point (prevents weird stuff from happening because of how child1 and child2 are defined)
+                # First point != second point (otherwise no crossover)
+                # Second point > first point (prevents weird stuff from happening because of how child1 and child2 are defined)
                 child1 = father[:firstPoint] + mother[firstPoint: secondPoint] + father[secondPoint:]
                 child2 = mother[:firstPoint] + father[firstPoint: secondPoint] + mother[secondPoint:]
 
                 children.append(child1)
                 children.append(child2)
 
-    #Mutations
+    # Mutations
     chanceToMutate = random.randint(1,20)
     # 5% chance
     if chanceToMutate == 1:
         individualToMutate = random.randint(0,len(children)-1)
         geneToMutate = random.randint(0, len(children[individualToMutate])-1)
-        #Randomly chooses which individual and which gene in that individual to mutate
+        # Randomly chooses which individual and which gene in that individual to mutate
 
         children[individualToMutate][geneToMutate] =  random.randint(75, 125) / 100
-        #randint is any number for generating individual
+        # randint is any number for generating individual
 
         print(individualToMutate, geneToMutate, 'mutated')
 

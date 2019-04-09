@@ -5,70 +5,14 @@ import random
 def teams(conference):
     if conference == 'west':
         file = open('western.txt','r')
-        count = 1
-        x=[]
-        y=[]
-        z=[]
-        west = []
-        for line in file:
-            line = line.rstrip()
-            if count == 1 or count == 2 or count == 3 or count == 4 or count == 5:
-                x.append(line)
-                count += 1
-                # These teams are in one division
-
-            elif count == 6 or count == 7 or count == 8 or count == 9 or count == 10:
-                y.append(line)
-                count += 1
-                # These teams are in another division
-            else:
-                z.append(line)
-                count += 1
-                # These teams are in the final division for this conference
-
-        west.append(x)
-        west.append(y)
-        west.append(z)
-        file.close()
-        return west
-    #Returns a 2d list, each list in this list are the 5 teams that are in the same division
     elif conference == 'east':
         file = open('eastern.txt','r')
-        count = 1
-        x=[]
-        y=[]
-        z=[]
-        east = []
-        for line in file:
-            line = line.rstrip()
-            if count == 1 or count == 2 or count == 3 or count == 4 or count == 5:
-                x.append(line)
-                count += 1
-                # These teams are in one division
 
-            elif count == 6 or count == 7 or count == 8 or count == 9 or count == 10:
-                y.append(line)
-                count += 1
-                # These teams are in another division
-            else:
-                z.append(line)
-                count += 1
-                # These teams are in the final division for this conference
-
-        east.append(x)
-        east.append(y)
-        east.append(z)
-        file.close()
-        return east
-
-
-#def eastTeams():
-    file = open('eastern.txt','r')
     count = 1
     x=[]
     y=[]
     z=[]
-    east = []
+    team = []
     for line in file:
         line = line.rstrip()
         if count == 1 or count == 2 or count == 3 or count == 4 or count == 5:
@@ -85,18 +29,18 @@ def teams(conference):
             count += 1
             # These teams are in the final division for this conference
 
-    east.append(x)
-    east.append(y)
-    east.append(z)
+    team.append(x)
+    team.append(y)
+    team.append(z)
     file.close()
-    return east
-
+    return team
+    #Returns a 2d list, each list in this list are the 5 teams that are in the same division
 
 def simulateMainAtHome(main,t1, t2, year):
-    #This function simulates the chance that team 1 wins against team 2 or vice versa in ONE
-    #Head to head game. It accounts for some randomness and home court advantage.
-    #This one game is simulated many times and the team that wins majority of the time will
-    #be considered to be the winner of this game
+    '''This function simulates the chance that team 1 wins against team 2 or vice versa in ONE
+    Head to head game. It accounts for some randomness and home court advantage.
+    This one game is simulated many times and the team that wins majority of the time will
+    be considered to be the winner of this game '''
     home = t1
     away = t2
     x = [1,1,1,1]
@@ -130,15 +74,11 @@ def simulateMainAtHome(main,t1, t2, year):
         print(away, 'won' , awayWin / 10 ,'% of the time')
         return 'lost'
 
-# One function for home and one for away because our coefficients will only modify the main team we are testing
-# The main team will be sometimes home and sometimes away so we need the coefficients parameter to be passed
-# to the homeInit or the awayInit when calling teamScore()
+''' One function for home and one for away because our coefficients will only modify the main team we are testing
+ The main team will be sometimes home and sometimes away so we need the coefficients parameter to be passed
+ to the homeInit or the awayInit when calling teamScore() '''
 
 def simulateMainAtAway(t1, t2, main, year):
-    #This function simulates the chance that team 1 wins against team 2 or vice versa in ONE
-    #Head to head game. It accounts for some randomness and home court advantage.
-    #This one game is simulated many times and the team that wins majority of the time will
-    #be considered to be the winner of this game
     home = t1
     away = t2
     x = [1,1,1,1]
@@ -173,11 +113,9 @@ def simulateMainAtAway(t1, t2, main, year):
         print(away, 'won' , awayWin / 10 ,'% of the time')
         return 'lost'
 
-
 def simulateWest(team, division, index, year, coefficients):
-    #Team is an element in 2 d list of teams e.g. west[0][0]
-    # division and index is the position of the team in the list of teams
-    # Passed into the function to use as conditions so the team doesn't play themselves
+    ''' division and index is the position of the team in the list of teams.
+    Passed into the function to use as conditions so the team doesn't play themselves'''
     mainScore = teamScore(year, team, coefficients)
 
     west = teams('west')
@@ -212,7 +150,6 @@ def simulateWest(team, division, index, year, coefficients):
     # Plays every team in the same divion twice at AWAY
 
 
-
     for i in range(0,3):
         for j in range(0,5):
             x = simulateMainAtHome(mainScore, team, east[i][j],year)
@@ -227,7 +164,6 @@ def simulateWest(team, division, index, year, coefficients):
                 wins += 1
     # Plays every team in the oppsing conference once at AWAY
 
-
     # Random 6 teams in same conference but differet division to play 2 home 2 away
     rd1 = [0,1,2,3,4]
     rd2 = [0,1,2,3,4]
@@ -237,7 +173,6 @@ def simulateWest(team, division, index, year, coefficients):
             n = random.choice([d1,d2])
             # If they are both not empty, randomly choose one of the conferences
             if n == d1:
-                # Chosen division 1
                 y = random.choice(rd1)
                 # Randomly choose a team in this conference
                 for i in range(2):
@@ -252,10 +187,8 @@ def simulateWest(team, division, index, year, coefficients):
                         wins +=1
                         # Play 2 games AWAY
                 rd1.remove(y)
-                # Remove this team from teams that have not been played
 
             elif n == d2:
-                # Chosen division 2
                 y = random.choice(rd2)
                 for i in range(2):
                     x = simulateMainAtHome(mainScore, team, west[d2][y],year)
@@ -283,7 +216,6 @@ def simulateWest(team, division, index, year, coefficients):
                 if x == 'lost':
                     wins +=1 # 2 AWAY
             rd2.remove(y)
-
 
         elif len(rd2) == 0:
             y = random.choice(rd1)
@@ -329,7 +261,7 @@ def simulateWest(team, division, index, year, coefficients):
         if g == d1:
             rd1.remove(rd1[f])
         else:
-            rd2.remove(rd2[f])  # Remove Team
+            rd2.remove(rd2[f])
 
 
     # Last 2 teams, 1 away 1 home
@@ -364,12 +296,9 @@ def simulateWest(team, division, index, year, coefficients):
 
 
 def simulateEast(team, division, index, year, coefficients):
-    #Team is an element in 2 d list of teams e.g. west[0][0]
-
-    # Comments found in the function simulateWest
-    # These two are essentially the same function but one is for a team in the western conference
-    # and the other in the eastern conference. Two functions are needed because of the difference
-    # in the teams and the number of games they play per team due to them being different conferences
+    ''' This and simulateWest are essentially the same function but one is for a team in the western conference
+     and the other in the eastern conference. Two functions are needed because of the difference
+     in the teams and the number of games they play per team due to them being different conferences '''
 
     mainScore = teamScore(year, team, coefficients)
 
@@ -414,8 +343,6 @@ def simulateEast(team, division, index, year, coefficients):
             if x == 'lost':
                 wins += 1
 
-
-    # Random 6 teams in same conference but differet division to play 2 home 2 away
     rd1 = [0,1,2,3,4]
     rd2 = [0,1,2,3,4]
 
@@ -476,7 +403,6 @@ def simulateEast(team, division, index, year, coefficients):
             rd1.remove(y)
 
 
-    #next have to random 2 teams to play 2 home games and 1 away game
     for i in range(2):
         if len(rd1) == 0:
             g = d2

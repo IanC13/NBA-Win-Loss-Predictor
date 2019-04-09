@@ -24,7 +24,7 @@ def teamScore(year, team, coefficients):
             ORB = ORB + x[count]['ORB']
         if x[count]['FT'] != None:
             FT = FT + x[count]['FT']
-        #Gets the sum of all players for all these stats
+        # Gets the sum of all players for all these stats
         count = count + 1
 
     #Four factors
@@ -34,5 +34,4 @@ def teamScore(year, team, coefficients):
     FT = FT / FGA
 
     score =  co[0] * eFGp + co[1] * ORB +  co[2] * FT -  co[3] * TOVp
-    #print(score)
     return score
